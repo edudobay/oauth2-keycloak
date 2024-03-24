@@ -5,6 +5,7 @@ namespace Stevenmaguire\OAuth2\Client\Provider;
 use Exception;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use League\OAuth2\Client\Grant\AbstractGrant;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessToken;
@@ -387,5 +388,10 @@ class Keycloak extends AbstractProvider
     private function validateGteVersion($version)
     {
         return (isset($this->version) && version_compare($this->version, $version, '>='));
+    }
+
+    protected function createAccessToken(array $response, AbstractGrant $grant)
+    {
+        return new SpecificAccessToken($response);
     }
 }
